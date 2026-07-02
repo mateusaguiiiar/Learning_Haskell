@@ -26,3 +26,28 @@ data ListaInt = Vazia | No Int ListaInt deriving Show
 somaLista :: ListaInt -> Int
 somaLista Vazia = 0
 somaLista (No x resto) = x + somaLista resto
+
+-- ex5: Crie o operador (>|) :: Int -> ListaInt -> ListaInt que é capaz de inserir um elemento ao fim de uma ListaInt.
+(>|) :: Int -> ListaInt -> ListaInt
+(>|) x Vazia = No x Vazia
+(>|) x (No y resto) = No y (x >| resto)
+
+-- ex6: Crie o operador (|<) :: Int -> ListaInt -> ListaInt que é capaz de inserir um elemento no início de uma ListaInt.
+(|<) :: Int -> ListaInt -> ListaInt
+(|<) x list = No x list
+
+-- ex7: Crie um tipo de dado CorSemaforo com três construtores sem argumentos: Verde, Amarelo e Vermelho. Escreva uma função proximaCor :: CorSemaforo -> CorSemaforo que simule a transição automática de um semáforo de trânsito tradicional (onde Verde avança para Amarelo, Amarelo avança para Vermelho, e Vermelho retorna para Verde).
+data CorSemaforo = Verde | Vermelho | Amarelo deriving Show
+
+proximaCor :: CorSemaforo -> CorSemaforo
+proximaCor Verde = Amarelo
+proximaCor Amarelo = Vermelho
+proximaCor Vermelho = Verde
+
+--ex8: Crie um tipo de dado parametrizado Opcional a que possua dois construtores: Nenhum e Dado a. Escreva uma função filtrarValores :: [Opcional a] -> [a] que receba uma lista nativa do Haskell composta por elementos do tipo Opcional a e retorne uma lista contendo apenas os valores desempacotados que estavam dentro do construtor Dado, descartando todas as ocorrências de Nenhum.
+data Opcional a = Nenhum | Dado a deriving Show
+
+filtrarValores :: [Opcional a] -> [a]
+filtrarValores [] = []
+filtrarValores (Nenhum : xs) = filtrarValores xs
+filtrarValores (Dado x : xs) = x : filtrarValores xs
