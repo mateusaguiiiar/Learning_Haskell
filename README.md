@@ -17,9 +17,43 @@ As I progress through the course modules, this repository covers the following f
 
 ### 🛠️ Advanced Type System & Recursion
 * **Type Aliases (`type`):** Creating clean synonyms for pre-existing types to make code more readable.
-* **Algebraic Data Types (`data`):** Designing custom sum and product types from scratch, utilizing multiple constructors (e.g., separating `PessoaFisica` and `PessoaJuridica` logic under a single `Cliente` type).
-* **Self-Referential / Recursive Types:** Building low-level data structures manually (e.g., creating a custom linked list structure `data ListaInt = Vazia | No Int ListaInt`).
-* **Pure Recursion:** Designing recursive algorithms over both native types and custom types (e.g., recursive accumulation to sum custom list elements).
+* **Algebraic Data Types (`data`):** Designing custom sum and product types from scratch.
+* **Self-Referential / Recursive Types:** Building low-level data structures manually.
+* **Pure Recursion:** Designing recursive algorithms over both native types and custom types.
+
+---
+
+## 🗂️ Project Structure
+
+The codebase is organized chronologically by activities:
+* `Atv1/`, `Atv2/` ... — Early foundations: Math functions, primitive types, loops via recursion, and native list processing.
+* `Atv3/`, `Atv4/` ... — Introduction to custom Type declarations, complex Pattern Matching without guards, and structural data design.
+
+---
+
+## 💡 Code Examples Included
+
+Here are some of the custom data structures and functions implemented in the latest activities:
+
+### 1. Pattern Matching without Guards
+A custom data type to handle different customer profiles and extract names cleanly using pattern matching:
+```haskell
+data Cliente = PessoaFisica String Int | PessoaJuridica String Int
+
+obterNome :: Cliente -> String
+obterNome (PessoaFisica nome i) = nome
+obterNome (PessoaJuridica ra a) = ra
+```
+
+### 2. Custom Recursive Lists (`ListaInt`)
+A deep dive into how Haskell handles lists under the hood, featuring a recursive function to sum elements:
+```haskell
+data ListaInt = Vazia | No Int ListaInt deriving Show
+
+somaLista :: ListaInt -> Int
+somaLista Vazia        = 0
+somaLista (No x resto) = x + somaLista resto
+```
 
 ---
 
@@ -29,3 +63,31 @@ As I progress through the course modules, this repository covers the following f
 Ensure you have the Glasgow Haskell Compiler (**GHC**) installed on your local machine:
 ```bash
 ghc --version
+```
+
+### Running Locally with VS Code & GHCi
+The quickest way to interact with any assignment file is using the **GHCi** (interactive terminal):
+
+1. Open your terminal inside the specific activity folder (e.g., `Atv4/`).
+2. Load the target script file (replace `main.hs` with your actual file name):
+   ```bash
+   ghci main.hs
+   ```
+3. Test any function directly in the prompt by providing mock arguments:
+   ```haskell
+   ghci> obterNome (PessoaFisica "Mateus" 20)
+   "Mateus"
+   
+   ghci> somaLista (No 5 (No 15 Vazia))
+   20
+   ```
+4. If you modify the code in VS Code, simply hit save and reload the interpreter without closing it:
+   ```haskell
+   ghci> :r
+   ```
+5. To close the interactive session, type `:q`.
+
+---
+
+## 📝 License
+This repository is dedicated entirely to academic growth and functional programming exploration. Feel free to browse through the solutions!
