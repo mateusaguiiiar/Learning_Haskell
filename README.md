@@ -23,14 +23,6 @@ As I progress through the course modules, this repository covers the following f
 
 ---
 
-## 🗂️ Project Structure
-
-The codebase is organized chronologically by activities:
-* `Atv1/`, `Atv2/` ... — Early foundations: Math functions, primitive types, loops via recursion, and native list processing.
-* `Atv3/`, `Atv4/` ... — Introduction to custom Type declarations, complex Pattern Matching without guards, and structural data design.
-
----
-
 ## 💡 Code Examples Included
 
 Here are some of the custom data structures and functions implemented in the latest activities:
