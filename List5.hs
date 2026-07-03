@@ -30,16 +30,30 @@ balanceada :: Arvore3 a -> Bool
 balanceada (Folha3 _) = True
 balanceada (No3 esq dir) = abs (quantidade esq - quantidade dir) <= 1 && balanceada esq && balanceada dir
 
--- ex4: Dada a definição data Expr = Val Int | Add Expr Expr defina a função avaliar :: Expr -> Int tal que avaliar substitui cada construtor Val na expressão pelo valor Int representado pelo construtor, e cada construtor Add pela aplicação da função (+).
+-- ex4: Defina a função balancear :: [a] -> Arvore a que converte uma lista não vazia em uma árvore balanceada. Dica: primeiro defina uma função que divide uma lista em duas metades cujos tamanhos diferem em no máximo 1.
+divide :: [a] -> ([a], [a])
+divide xs = splitAt (length xs `div` 2) xs
+
+balancear :: [a] -> Arvore3 a
+balancear [x] = Folha3 x
+balancear xs = No3 (balancear metadeEsq) (balancear metadeDir)
+  where
+    (metadeEsq, metadeDir) = divide xs
+
+-- ex5: Dada a definição data Expr = Val Int | Add Expr Expr defina a função avaliar :: Expr -> Int tal que avaliar substitui cada construtor Val na expressão pelo valor Int representado pelo construtor, e cada construtor Add pela aplicação da função (+).
 data Expr = Val Int | Add Expr Expr
 
 avaliar :: Expr -> Int
 avaliar (Val y) = y
 avaliar (Add e1 e2) = (+) (avaliar e1) (avaliar e2)
 
--- ex5: Utilizando a definição data Expr = Val Int | Op Expr Expr defina a função de alta ordem folde :: (Int -> a) -> (a -> a -> a) -> Expr -> a tal que folde f g substitui cada construtor Val na expressão pela aplicação da função f ao valor representado pelo Val, e cada construtor Op pela aplicação da função g aos valores resultantes de ambas as expressões codificadas pelo construtor Op.
+-- ex6: Utilizando a definição data Expr = Val Int | Op Expr Expr defina a função de alta ordem folde :: (Int -> a) -> (a -> a -> a) -> Expr -> a tal que folde f g substitui cada construtor Val na expressão pela aplicação da função f ao valor representado pelo Val, e cada construtor Op pela aplicação da função g aos valores resultantes de ambas as expressões codificadas pelo construtor Op.
 data Expr5 = Val5 Int | Op Expr5 Expr5
 
+folde :: (Int -> a) -> (a -> a -> a) -> Expr5 -> a 
+folde f g (Val5 x) = f x
+folde f g (Op e1 e2) = g (folde f g e1) (folde f g e2)
 
-
--- ex6: Usando a função folde, defina a função eval :: Expr -> Int que avalia uma expressão para um valor inteiro. Uma forma de enxergar o que a função eval deve fazer é refletir sobre a seguinte frase: como eu posso usar a função folde de forma que eval avalie a expressão assumindo que Op signifique a soma? Por exemplo, se eu executasse eval (Op (Val 1) (Val 4)), assumindo que Op é a soma, ela deveria retornar 5. Perceba que Op poderia representar qualquer operação sobre os valores, basta que você forneça a operação desejada para a função folde.
+-- ex7: Usando a função folde, defina a função eval :: Expr -> Int que avalia uma expressão para um valor inteiro. Uma forma de enxergar o que a função eval deve fazer é refletir sobre a seguinte frase: como eu posso usar a função folde de forma que eval avalie a expressão assumindo que Op signifique a soma? Por exemplo, se eu executasse eval (Op (Val 1) (Val 4)), assumindo que Op é a soma, ela deveria retornar 5. Perceba que Op poderia representar qualquer operação sobre os valores, basta que você forneça a operação desejada para a função folde.
+eval :: Expr5 -> Int
+eval e = folde (\x -> x) (+) e
