@@ -18,5 +18,25 @@ somador = do
     auxiliar quantidade 0
 
 -- ex3: Redefina a função somador usando a função sequence :: [IO a] -> IO [a] que executa uma lista de ações e retorna uma lista de resultados. Pesquise sobre a função sequence.
+somador_ :: IO ()
+somador_ = do
+    putStrLn "Quantos numeros voce deseja somar?"
+    linhaQtd <- getLine
+    let n = read linhaQtd :: Int
+    linhas <- sequence [getLine | _ <- [1..n]]
+    let numeros = [read x :: Int | x <- linhas]
+    let total = sum numeros
+    putStrLn ("A soma final é: " ++ show total)
 
 -- ex4: Tomando como base a função obterChar no material de aula, defina uma função chamada obterLinha :: IO String que se comporta exatamente como a função getLine :: IO String, mas permite a deleção de caracteres.Dica: O caractere delete é ‘\DEL’, e o caractere de controle para mover o cursor uma posição para a esquerda é ‘\b’.
+obterLinha :: IO String
+obterLinha = do x <- getChar
+             if x == '\n' then
+                return []
+            elif x == '\b' then
+
+            elif x ==
+             else
+                do xs <- getLine
+                   return (x:xs)
+            
