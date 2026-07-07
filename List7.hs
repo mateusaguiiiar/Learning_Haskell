@@ -30,13 +30,21 @@ somador_ = do
 
 -- ex4: Tomando como base a função obterChar no material de aula, defina uma função chamada obterLinha :: IO String que se comporta exatamente como a função getLine :: IO String, mas permite a deleção de caracteres.Dica: O caractere delete é ‘\DEL’, e o caractere de controle para mover o cursor uma posição para a esquerda é ‘\b’.
 obterLinha :: IO String
-obterLinha = do x <- getChar
-             if x == '\n' then
-                return []
-            elif x == '\b' then
-
-            elif x ==
-             else
-                do xs <- getLine
-                   return (x:xs)
+obterLinha = auxiliar ""
+  where
+    auxiliar :: String -> IO String
+    auxiliar palavra = do x <- obterChar
+        if x == '\n' then do
+            putChar '\n'
+            return (reverse palavra)
             
+        else if x == '\DEL' then do
+            if null palavra then
+                auxiliar palavra
+            else do
+                putStr "\b \b"
+                auxiliar (tail palavra)
+                
+        else do
+            putChar x
+            auxiliar (x : palavra)
